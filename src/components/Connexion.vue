@@ -18,7 +18,7 @@
     </div>
 </template>
 <script>
-import router from '../router/index';
+import router from '../router/index'; 
 export default {
     name: 'connect',
     data() {
@@ -54,6 +54,13 @@ export default {
             .then(result => {
                 this.result = result
                 console.log(result.token)
+                if(result.token == undefined){
+                    alert('email ou mot de passe incorect');
+                } else {
+                localStorage.setItem('token', result.token)
+                localStorage.setItem('userId', result.userId)
+                router.push('/posts')
+                }
             }) 
             .catch(error => console.log(error));
         }

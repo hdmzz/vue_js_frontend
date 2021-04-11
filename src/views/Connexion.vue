@@ -17,7 +17,6 @@ export default {
         Header: Header,
         Connection: connect,
         Footer: Footer
-
     }
 }
 </script>
