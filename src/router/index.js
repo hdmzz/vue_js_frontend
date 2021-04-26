@@ -7,6 +7,8 @@ import connectionVue from '../views/Connexion';
 import PostsVue from '../views/Posts';
 import test from '../views/test';
 import CreatePostVue from '../views/CreatePost';
+import AccountVue from '../views/Account';
+import PostVue from '../views/Post';
 
 const router = new VueRouter({
   mode: 'history',
@@ -47,6 +49,23 @@ const router = new VueRouter({
       path: '/createPost',
       name: 'createPost',
       component: CreatePostVue,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: AccountVue,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/post/:id',
+      name: 'post',
+      component: PostVue,
+      props: true,
       meta: {
         requiresAuth: true
       }

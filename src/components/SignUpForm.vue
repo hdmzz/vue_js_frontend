@@ -1,32 +1,36 @@
 <template>
-    <div id="app">
-        <nav class="navigation">
-            <p>Déjà Inscrit ? <a href="/connexion">Connectez-vous</a></p>
-        </nav>
-        <form id="form" class="m-4" method="POST" @submit.prevent="sendData">
-            <div class="form-row">
-                <div id="rowItem">
-                    <div class="rowLign">
-                        <label for="prenom">Prénom :</label>
-                        <input type="text" name="prénom" v-model="firstName" class="form-control">
-                    </div>
-                    <div class="rowLign">
-                        <label for="nom">Nom :</label>
-                        <input type="text" name="nom" v-model="lastName" class="form-control">
-                    </div>
-                </div>
-                <div class="ligneForm">
-                    <label for="email">Adresse mail :</label>
-                    <input type="email" name="email" v-model="email" class="form-control">
-                </div>
-                <div class="ligneForm">
-                    <label for="password">Mot de passe :</label>
-                    <input type="password" name="password" v-model="password" class="form-control">
-                </div>
+    <div id="container">
+        <div id="inscriptionContainer">
+            <div id="logo">
+                <img src="../assets/logo/icon.svg" alt="logo de groupomania">
             </div>
-            <input id="formButton" type="submit" value="S'inscrire" class="btnSend">
-        </form>
-        <p>votre prenom est {{firstName}}</p>
+            <nav class="navigation">
+                <p>Déjà Inscrit ? <a href="/connexion">Connectez-vous</a></p>
+            </nav>
+            <form id="form" class="m-4" method="POST" @submit.prevent="sendData">
+                <div class="form-row">
+                    <div id="rowItem">
+                        <div class="rowLign">
+                            <label for="prenom">Prénom :</label>
+                            <input type="text" name="prénom" v-model="firstName" class="form-control">
+                        </div>
+                        <div class="rowLign">
+                            <label for="nom">Nom :</label>
+                            <input type="text" name="nom" v-model="lastName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="ligneForm">
+                        <label for="email">Adresse mail :</label>
+                        <input type="email" name="email" v-model="email" class="form-control">
+                    </div>
+                    <div class="ligneForm">
+                        <label for="password">Mot de passe :</label>
+                        <input type="password" name="password" v-model="password" class="form-control">
+                    </div>
+                </div>
+                <input id="formButton" type="submit" value="S'inscrire" class="btnSend">
+            </form>
+        </div>
     </div>
 </template>
 
@@ -64,7 +68,8 @@ export default {
                     router.push("connexion")
                     return resp.text()
                 } if (!resp.ok) {
-                    throw `fonction fetch post ne fonctionne pas ${resp.status}, ${resp.statusText}`
+                    console.log(resp)
+                    alert(resp.status, resp.statusText) 
                 }
             })
             .catch(error => console.log(error));
@@ -75,7 +80,23 @@ export default {
 
 
 
-<style>
+<style  lang="scss" scoped>
+#inscriptionContainer{
+    text-align: center;
+    background-color: white;
+    border-radius: 1rem;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    padding: 1rem;
+}
+#logo{
+    img{
+        height: 100%;
+        width: 25%;
+    }
+}
 #rowItem{
     display: flex;
     justify-content: center;

@@ -1,26 +1,27 @@
 <template>
-    <div id="feed">
+    <div id="account">
         <Header/>
-        <Posts/>
+        <Account/> 
     </div>
 </template>
 
 <script>
 import Header from '../components/Header';
-import Posts from '../components/Posts';
+import Account from '../components/Account';
 
 export default {
-    name: 'PostsVue',
+    name: 'AccountVue',
     components: {
         Header: Header,
-        Posts: Posts
+        Account: Account,
     }
 }
 </script>
+
 <style lang="scss" scoped>
-#feed{
+#account{
+    height: 100vh;
     background-color: #ebeef3;
-    padding-bottom: 2rem;
 ;
 }
 </style>
