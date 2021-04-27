@@ -17,11 +17,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-#account{
-    height: 100vh;
-    background-color: #ebeef3;
-;
-}
-</style>

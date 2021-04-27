@@ -19,8 +19,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 #feed{
-    background-color: #ebeef3;
     padding-bottom: 2rem;
-;
 }
 </style>

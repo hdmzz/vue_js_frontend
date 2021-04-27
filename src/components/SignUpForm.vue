@@ -12,20 +12,20 @@
                     <div id="rowItem">
                         <div class="rowLign">
                             <label for="prenom">Prénom :</label>
-                            <input type="text" name="prénom" v-model="firstName" class="form-control">
+                            <input type="text" name="prénom" v-model="firstName" class="form-control" required>
                         </div>
                         <div class="rowLign">
                             <label for="nom">Nom :</label>
-                            <input type="text" name="nom" v-model="lastName" class="form-control">
+                            <input type="text" name="nom" v-model="lastName" class="form-control" required>
                         </div>
                     </div>
                     <div class="ligneForm">
                         <label for="email">Adresse mail :</label>
-                        <input type="email" name="email" v-model="email" class="form-control">
+                        <input type="email" name="email" v-model="email" class="form-control" required>
                     </div>
                     <div class="ligneForm">
                         <label for="password">Mot de passe :</label>
-                        <input type="password" name="password" v-model="password" class="form-control">
+                        <input type="password" name="password" v-model="password" class="form-control" required>
                     </div>
                 </div>
                 <input id="formButton" type="submit" value="S'inscrire" class="btnSend">

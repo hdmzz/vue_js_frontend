@@ -1,6 +1,6 @@
 <template>
     <div id="addComment">
-        <input type="text" value="Commentaire" id="comInput" v-model="comment">
+        <input type="text" value="Commentaire" name="comInput" id="comInput" v-model="comment">
         <button @click="addComment">Ajouter commentaire</button>
     </div>
 </template>
@@ -17,6 +17,7 @@ export default {
     },
     created(){
         this.getInfo()
+        console.log('created addcomment')
     },
     methods:{
         async getInfo(){
@@ -26,7 +27,7 @@ export default {
         async addComment(){
             console.log('ajouter commentaire')
             console.log(this.userId)
-            fetch("http://localhost:3000/api/comment/createComment",{
+            await fetch("http://localhost:3000/api/comment/createComment",{
                 method: "POST",
                 headers: 
                 {   
@@ -36,10 +37,30 @@ export default {
                 body: JSON.stringify({
                     comment: this.comment,
                     userId: this.userId,
-                    postId: this.id
+                    postId: this.$store.state.postId
                 })
-            }).then(response => console.log(response))
+            }).then(response => {
+                console.log(response)
+                })
+            .catch(err => {
+                console.log(err)
+            });
+            this.$emit('commentsent', {
+                    message: 'nouveau post',
+                })
+            document.getElementsByName('comInput')[0].value = null
         }
     }
 }
 </script>
+<style lang="scss" scoped>
+#addComment{
+    display: flex;
+}
+#comInput{
+    width: 70%;
+}
+button{
+    width: fit-content;
+}
+</style>

@@ -13,18 +13,16 @@
                     <div v-if="post.imageurl">
                         <img :src="post.imageurl" alt="image du post">
                     </div>
-                    
-                    <!-- <button v-if="userId == post.id" @click="deletePost(post.post_id, userDltRoute)" id="deleteBtn"><i class="fas fa-trash-alt"></i></button>
-                    <button v-if="isadmin == 1" @click="deletePost(post.post_id, adminDltRoute)" id="adminDelete">Modérer ce post</button> -->
+                    <div id="comment">
+                        <AddComment @commentsent="getComments"/>
+                    </div>
                     <div id="commentSection">
-                        <AddComment/>
                         <div v-for="comment in data" :key="comment.commentId" id="comments">
                             <div id="head"><p>{{comment.firstName}} {{comment.lastName}} à écrit:</p></div>
                             <div><p>{{comment.comment}}</p></div>
                         </div>
                     </div>
                 </div>
-                {{data}}
             </div> 
         </div>
     </div>
@@ -48,7 +46,8 @@ export default {
             userId: null
         }
     },
-    created(){     
+    created(){
+        this.$store.state.postId = this.id   
         this.getInfo()
         console.log(this.id)
         this.getPost(this.id) 
@@ -75,13 +74,14 @@ export default {
             }).then(data => this.post = data.result[0]);
         },
         async getComments(){
-            fetch('http://localhost:3000/api/comment/getComments/' + this.id, {
+            console.log('getComments running')
+            await fetch('http://localhost:3000/api/comment/getComments/' + this.id, {
                 headers: {
                     authorization: 'Bearer ' + this.token
                 }
             }).then(res => res.json())
             .then(data => this.data = data.result)
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
         }
     }
 }
@@ -90,10 +90,9 @@ export default {
 <style lang="scss" scoped>
 #onePost{
     width: 100%;
-    background-color: #eeeeee;
 }
 #post{
-    height: 100vh;
+    margin: 2rem;
 }
 #postContainer{
     width: 70%;
@@ -104,23 +103,29 @@ export default {
     padding: 1rem;
     background-color: white;
     margin-top: 20px;
+    margin-bottom: 20px;
     border-radius: 1rem;
+    box-shadow: 0px 0px 10px rgb(110, 107, 107),
+                0px 0px 30px #777;
     img{
         max-height: 50%;
         max-width: 100%;
     }
-    #comInput{
-        width: 80%;
-    }
-    #addComment{
-        display: flex;
-        
-    }
 }
+#addComment{
+    padding: 1rem;
+    border-top: 1px black solid;
+    border-bottom: 1px black solid;
+}
+button{
+    width: fit-content;
+}
+
 #commentSection{
     background-color: #eeeeee;
     border-radius: 1rem;
     padding: 1rem;
+    margin: 1rem;
     #comments{
         background-color: white;
         border-radius: 1rem;

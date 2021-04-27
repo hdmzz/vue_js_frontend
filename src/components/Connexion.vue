@@ -9,11 +9,11 @@
                 <div class="form-row">
                     <div class="ligneForm">
                         <label for="email">Adresse mail :</label>
-                        <input type="email" name="email" v-model="email" class="form-control">
+                        <input type="email" name="email" v-model="email" class="form-control" required>
                     </div>
                     <div class="ligneForm">
                         <label for="password">Mot de passe :</label>
-                        <input type="password" name="password" v-model="password" class="form-control">
+                        <input type="password" name="password" v-model="password" class="form-control" required>
                     </div>
                 </div>
                 <input id="formButton" type="submit" value="Connexion" class="btnSend">

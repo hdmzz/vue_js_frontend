@@ -1,30 +1,25 @@
 <template>
     <div id="postForm">
-        <div id="postsContainer">
-            <p>Publiez quelque chose !</p>
-        </div>
         <form action="POST" @submit.prevent="createPost" id="myForm">
             <div id="comments" class="postInput">
-                <label for="comment">Commentaire :</label>
-                <textarea type="text" id="comment" name="comment" v-model="comment" rows="5" cols="33">Tapez votre texte ici!</textarea>
+                <textarea type="text" id="comment" name="comment" v-model="comment" rows="2" cols="33" placeholder="Créer un post"></textarea>
             </div>
-            <div>
-                <label for="file">Choisissez une image</label>
-                <input type="file" ref="file" name="file" @change="onFileSelected">
+            <div class="postInput">
+                <label for="file" class="labelFile">Choisir une image</label>
+                <input id="file" class="inputFile" type="file" ref="file" name="file" @change="onFileSelected">
             </div>
-            <button type="submit">Publier!</button>
+            <input type="submit" class="postInput" value="Publier!">
         </form>
+        
     </div>
 </template>
 
 <script>
-import router from '../router/index';
-//import axios from 'axios';
 export default {
     name: "CreatePost",
     data() {
         return{
-            comment: null,
+            comment: '',
             file: null
         }
     },
@@ -35,9 +30,10 @@ export default {
             this.file = file
             console.log(this.file)
         },
-        async createPost() {
+        createPost(){
             console.log('create post running')
             const token = localStorage.getItem('token');
+            console.log(token)
             const userId = localStorage.getItem('userId');
             const formData = new FormData();
             formData.append('userId', userId);
@@ -52,9 +48,13 @@ export default {
                 body: formData
             }).then(res => {
                 if(res.status == 200){
-                    router.push('/posts')
+                    this.$emit('postsent', {
+                    message: 'nouveau post',
+                })
                 }
             }).catch(error => console.log(error));
+            document.getElementsByName('file')[0].value = null;
+            document.getElementsByName('comment')[0].value = null
         }
     }
 }
@@ -62,34 +62,51 @@ export default {
 
 <style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
-#postsContainer{
-    font-family: Poppins,-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Arial,sans-serif;
-}
-
 #postForm{
+    font-family: Poppins,-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Arial,sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     background-color: #ffffff;
     border-radius: 1rem;
     width: fit-content;
-    padding: 1rem;
     margin-top: 1rem;
     margin-right: auto;
     margin-left: auto;
-    #comments{
-        padding: 1rem;
-    }
     button{
         border-radius: 1rem;
         background-color: #f0e6e6;
     }
+}
+#myForm{
+    display: flex;
+    flex-wrap: wrap;
+
 }
 label {
     display: block;
     margin-bottom: 10px;
 }
 #comment{
+    color: black;
     text-align: center;
 }
 .postInput{
-    margin-bottom: 1rem;
+    margin: 1rem;
+    max-height: fit-content;
+}
+//css partie input 
+.labelFile {
+    cursor: pointer;
+    color: #00b1ca;
+    font-weight: bold;
+}
+.labelFile:hover {
+    color: #25a5c4;
+}
+
+// et on masque le input
+.inputFile {
+    display: none;
 }
 </style>

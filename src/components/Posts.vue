@@ -1,12 +1,11 @@
 <template>
     <div id="container">
         <div id="posts">
-            <div id="titleForum">
-                <h1>Forum</h1>
-                <p>Publiez quelque chose! : <a href="/createPost">Ciquez-ici</a></p>
-            </div>
             <div id="postsContainer">
-                <div v-for="post in posts" :key="post.post_id" id="card">
+                <div class="card">
+                    <CreatePost @postsent="getPosts"/>
+                </div>
+                <div v-for="post in posts" :key="post.post_id" class="card">
                         <div id="head"><p>{{post.firstName}} {{post.lastName}} a écrit :</p></div>
                         <router-link :to="{name: 'post', params: {id: post.post_id}}">
                             <div id="body"><p>{{post.comment}}</p></div>
@@ -14,8 +13,8 @@
                                 <img :src="post.imageurl" alt="image du post">
                             </div>
                         </router-link>
-                    <button v-if="userId == post.id" @click="deletePost(post.post_id, userDltRoute)" id="deleteBtn"><i class="fas fa-trash-alt"></i></button>
-                    <button v-if="isadmin == 1" @click="deletePost(post.post_id, adminDltRoute)" id="adminDelete">Modérer ce post</button>
+                    <button v-if="userId == post.id" @click="deletePost(post.post_id, userDltRoute)" class="deleteBtn"><i class="fas fa-trash-alt"></i></button>
+                    <button v-if="isadmin == 1" @click="deletePost(post.post_id, adminDltRoute)" class="adminDelete">Modérer ce post</button>
                 </div>
             </div> 
         </div>
@@ -23,8 +22,12 @@
 </template>
 
 <script>
+import CreatePost from './CreatePost';
 export default {
     name: 'posts',
+    components: {
+        CreatePost: CreatePost
+    },
     data(){
         return{
             posts: [],
@@ -93,11 +96,9 @@ a{
 h1{
     font-family: 'Poppins';
 }
-#posts{
-    background-color: #ebeef3;
-}
+
 #postsContainer{
-    width: 40%;
+    width: 50%;
     margin-right: auto;
     margin-left: auto;
 }
@@ -105,9 +106,10 @@ h1{
     width: 100%;
 }
 
-#card{
+.card{
     padding: 1rem;
     background-color: white;
+    box-shadow: 0px 0px 10px rgb(110, 107, 107), 0px 0px 30px #777;
     margin-top: 20px;
     border-radius: 1rem;
     img{
@@ -122,8 +124,11 @@ h1{
 #head{
     font-family: franklin Gothic, Arial Bold
 }
-#adminDelete{
+.adminDelete{
     background-color:crimson;
     color: whitesmoke;
+}
+.deleteBtn{
+    width: fit-content;
 }
 </style>
