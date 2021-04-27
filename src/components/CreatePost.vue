@@ -54,7 +54,8 @@ export default {
                 }
             }).catch(error => console.log(error));
             document.getElementsByName('file')[0].value = null;
-            document.getElementsByName('comment')[0].value = null
+            document.getElementsByName('comment')[0].value = null;
+            formData.delete()
         }
     }
 }
