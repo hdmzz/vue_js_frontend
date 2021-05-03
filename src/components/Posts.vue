@@ -5,6 +5,9 @@
                 <div class="card">
                     <CreatePost @postsent="getPosts"/>
                 </div>
+                <div v-if="posts==''" id="emptyPosts">
+                    <p>Pas encore de post</p>
+                </div>
                 <div v-for="post in posts" :key="post.post_id" class="card">
                         <div id="head"><p>{{post.firstName}} {{post.lastName}} a écrit :</p></div>
                         <router-link :to="{name: 'post', params: {id: post.post_id}}">
@@ -35,11 +38,13 @@ export default {
             isadmin: 0,
             error: '',
             adminDltRoute: 'http://localhost:3000/api/admin/',
-            userDltRoute: 'http://localhost:3000/api/post/'
+            userDltRoute: 'http://localhost:3000/api/post/',
+            token: ''
         }
     },
     created(){
         console.log('created')
+        this.token = localStorage.getItem('token');
         this.userId = localStorage.getItem('userId');
         this.isadmin = localStorage.getItem('isadmin');
         this.getPosts();       
@@ -47,25 +52,28 @@ export default {
     methods: {
         getPosts() {
             //envoyer une requête pour récupérer les posts avec le bearer token
-            const token = localStorage.getItem('token');
             fetch("http://localhost:3000/api/post/getPosts",
             {
                 headers: 
                 {
-                    authorization : 'Bearer ' + token
+                    authorization : 'Bearer ' + this.token
                 }
             }).then(response => {
+                if(response.status == 403){
+                    alert("Vous êtes connecté depuis plus de 8 heures, vous devez vous reconnecter")
+                }
                 const data = response.json();
                 return data
-            }).then(data => this.posts = data);
+            }).then(data => {
+                this.posts = data
+            })
         },
         deletePost(id, url) {
-            const token = localStorage.getItem('token');
-            console.log(token);
+            console.log(this.token+'deletepost');
             fetch(url + id, {
                 method: 'delete',
                 headers: {
-                    authorization : 'Bearer ' + token
+                    authorization : 'Bearer ' + this.token
                 }
             }).then(res => {
                 return res
@@ -77,8 +85,7 @@ export default {
                 document.location.reload();
                 }
             })
-        },
-
+        }
     }
 }
 </script>
@@ -98,9 +105,13 @@ h1{
 }
 
 #postsContainer{
-    width: 50%;
+    width: 40%;
     margin-right: auto;
     margin-left: auto;
+}
+#emptyPosts{
+    text-align: center;
+    margin-top: 20vh;
 }
 #container{
     width: 100%;
@@ -109,7 +120,7 @@ h1{
 .card{
     padding: 1rem;
     background-color: white;
-    box-shadow: 0px 0px 10px rgb(110, 107, 107), 0px 0px 30px #777;
+    box-shadow: 0px 0px 10px rgb(110, 107, 107);
     margin-top: 20px;
     border-radius: 1rem;
     img{
@@ -130,5 +141,15 @@ h1{
 }
 .deleteBtn{
     width: fit-content;
+}
+
+//responsive
+@media screen and (min-width: 200px) and (max-width: 900px) {
+    #postsContainer{
+        width: 90%;
+    }
+    .card{
+        border-radius: 0;
+    }
 }
 </style>

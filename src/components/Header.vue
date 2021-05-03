@@ -6,7 +6,7 @@
                 <router-link to="/account">Mon compte</router-link>
             </div>
             <div id="logo">
-                <img src="../assets/logo/icon-left-font.svg" alt="logo de groupomania" id="logo">
+                <img src="../assets/logo/icon.svg" alt="logo de groupomania" id="logo">
             </div>
             <div id="logout">
                 <button class="menu" @click="logout" id="btnLg" href="#">Déconnexion</button>
@@ -44,14 +44,13 @@ export default {
     margin: 1rem;
     align-items: center;
     text-align: center;
-    box-shadow: 0px 0px 10px rgb(110, 107, 107),
-                0px 0px 30px #777;
+    box-shadow: 0px 0px 10px rgb(110, 107, 107);
     height: fit-content;
 }
 
 #logo{
-    height: 20vh;
     width: 25vw;
+    height: fit-content;
 }
 .menu{
     margin: 0.5rem;
@@ -68,16 +67,17 @@ a{
     color: blueviolet;
 }
 button{
-padding:0.35em 1.2em;
-border:0.1em solid #FFFFFF;
-margin:0 0.3em 0.3em 0;
-border-radius:0.12em;
-box-sizing: border-box;
-text-decoration:none;
-font-family:'Roboto',sans-serif;
-font-weight:300;
-text-align:center;
-transition: all 0.2s;
+    width: fit-content;
+    border: none;
+    background-color: dodgerblue;
+    border-radius: 1rem;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    padding: 1rem;
 }
-
+// responsive
+@media screen and (min-width: 200px) and (max-width: 700px) {
+}
 </style>

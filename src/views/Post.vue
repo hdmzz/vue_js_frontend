@@ -15,11 +15,18 @@
                     </div>
                     <div id="comment">
                         <AddComment @commentsent="getComments"/>
-                    </div>
-                    <div id="commentSection">
-                        <div v-for="comment in data" :key="comment.commentId" id="comments">
-                            <div id="head"><p>{{comment.firstName}} {{comment.lastName}} à écrit:</p></div>
-                            <div><p>{{comment.comment}}</p></div>
+                        <div id="commentSection">
+                            <p v-if="data == ''">Pas encore de commentaires</p>
+                            <div v-for="comment in data" :key="comment.commentId" id="comments">
+                                <div id="head">
+                                    <p>{{comment.firstName}} {{comment.lastName}} à écrit:</p>
+                                </div>
+                                <div>
+                                    <p>{{comment.comment}}</p>
+                                </div>
+                                <button v-if="userId == comment.userId" @click="deleteComment(comment.commentId, $store.state.userCmtDlt)" class="deleteBtn"><i class="fas fa-trash-alt"></i></button>
+                                <button v-if="isadmin == 1" @click="deleteComment(comment.commentId, $store.state.adminCmtDlt)" class="adminDelete">Modérer ce post</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -47,18 +54,15 @@ export default {
         }
     },
     created(){
-        this.$store.state.postId = this.id   
-        this.getInfo()
-        console.log(this.id)
+        this.isadmin = localStorage.getItem('isadmin');
+        this.userId = localStorage.getItem('userId')
+        this.token = localStorage.getItem('token');
+        this.userId = localStorage.getItem('userId');
+        this.$store.state.postId = this.id;   
         this.getPost(this.id) 
         this.getComments()
-
     },
     methods: {
-        async getInfo(){
-            this.token = localStorage.getItem('token');
-            this.userId = localStorage.getItem('userId');
-        },
         async getPost(id) {
             console.log('getPosts')
             //envoyer une requête pour récupérer les posts avec le bearer token
@@ -71,7 +75,12 @@ export default {
             }).then(response => {
                 const data = response.json();
                 return data
-            }).then(data => this.post = data.result[0]);
+            }).then(data => {
+                this.post = data.result[0]
+            })
+            .catch(error => {
+                console.log(error)
+            })
         },
         async getComments(){
             console.log('getComments running')
@@ -79,9 +88,35 @@ export default {
                 headers: {
                     authorization: 'Bearer ' + this.token
                 }
-            }).then(res => res.json())
+            })
+            .then(res => res.json())
             .then(data => this.data = data.result)
-            .catch(err => console.log(err));
+            .catch(error => console.log(error));
+        },
+        async deleteComment(commentId, url){
+            console.log('delete comment' + ' '+ (commentId))
+            console.log(url)
+            await fetch(url + commentId, 
+            {
+                method: 'delete',
+                headers: {
+                    authorization : 'Bearer ' + this.token
+                }
+            })
+            .then(res => {
+                return res
+                })
+            .then(res => {
+                if (res.status == 401){
+                    alert('Vous ne pouvez pas supprimer ce post')
+                }
+                if(res.status == 200){
+                    this.getComments()
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
         }
     }
 }
@@ -95,7 +130,7 @@ export default {
     margin: 2rem;
 }
 #postContainer{
-    width: 70%;
+    width: 50%;
     margin-right: auto;
     margin-left: auto;
 }
@@ -105,8 +140,7 @@ export default {
     margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 1rem;
-    box-shadow: 0px 0px 10px rgb(110, 107, 107),
-                0px 0px 30px #777;
+    box-shadow: 0px 0px 10px rgb(110, 107, 107);
     img{
         max-height: 50%;
         max-width: 100%;
@@ -114,13 +148,20 @@ export default {
 }
 #addComment{
     padding: 1rem;
-    border-top: 1px black solid;
-    border-bottom: 1px black solid;
 }
 button{
-    width: fit-content;
+    width: fit-content; 
+    border: none;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
-
+#comment{
+    padding: 1rem;
+    background-color: #F8F8FF;
+}
 #commentSection{
     background-color: #eeeeee;
     border-radius: 1rem;
@@ -131,6 +172,19 @@ button{
         border-radius: 1rem;
         padding: 1rem;
         margin: 10px;
+    }
+}
+
+//responsive
+@media screen and (min-width: 200px) and (max-width: 900px) {
+    #postContainer{
+        width: 90%;
+    }
+    #card{
+        border-radius: 0;
+    }
+    #comment{
+        text-align: center;
     }
 }
 </style>

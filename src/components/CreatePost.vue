@@ -2,7 +2,7 @@
     <div id="postForm">
         <form action="POST" @submit.prevent="createPost" id="myForm">
             <div id="comments" class="postInput">
-                <textarea type="text" id="comment" name="comment" v-model="comment" rows="2" cols="33" placeholder="Créer un post"></textarea>
+                <textarea type="text" id="comment" name="comment" v-model="comment" rows="2" placeholder="Créer un post"></textarea>
             </div>
             <div class="postInput">
                 <label for="file" class="labelFile">Choisir une image</label>
@@ -53,9 +53,9 @@ export default {
                 })
                 }
             }).catch(error => console.log(error));
-            document.getElementsByName('file')[0].value = null;
+            document.getElementById('file').value = null;
             document.getElementsByName('comment')[0].value = null;
-            formData.delete()
+            formData.delete('file')
         }
     }
 }
@@ -70,7 +70,7 @@ export default {
     align-items: center;
     background-color: #ffffff;
     border-radius: 1rem;
-    width: fit-content;
+    max-width: 100%;
     margin-top: 1rem;
     margin-right: auto;
     margin-left: auto;
@@ -82,7 +82,7 @@ export default {
 #myForm{
     display: flex;
     flex-wrap: wrap;
-
+    max-width: 100%;
 }
 label {
     display: block;
@@ -107,7 +107,8 @@ label {
 }
 
 // et on masque le input
-.inputFile {
+.inputFile{
     display: none;
 }
+
 </style>

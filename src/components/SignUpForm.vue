@@ -21,7 +21,7 @@
                     </div>
                     <div class="ligneForm">
                         <label for="email">Adresse mail :</label>
-                        <input type="email" name="email" v-model="email" class="form-control" required>
+                        <input type="email" name="email" v-model="email" class="form-control" required pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}">
                     </div>
                     <div class="ligneForm">
                         <label for="password">Mot de passe :</label>
@@ -49,7 +49,7 @@ export default {
     },
     methods: {
         sendData() {
-            fetch('http://localhost:3000/api/test',
+            fetch('http://localhost:3000/api/users/',
             {
                 method: 'POST',
                 headers: 
@@ -81,14 +81,16 @@ export default {
 
 
 <style  lang="scss" scoped>
+#container{
+    display: flex;
+    height: 100vh;
+}
 #inscriptionContainer{
     text-align: center;
     background-color: white;
     border-radius: 1rem;
     width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 2rem;
+    margin: auto;
     padding: 1rem;
 }
 #logo{

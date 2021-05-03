@@ -1,7 +1,9 @@
 <template>
-    <div id="addComment">
-        <input type="text" value="Commentaire" name="comInput" id="comInput" v-model="comment">
-        <button @click="addComment">Ajouter commentaire</button>
+    <div id="addComment" @submit.prevent='addComment'>
+        <form action="post">
+            <input type="text" value="Commentaire" name="comInput" id="comInput" v-model="comment" required='true'>
+            <input type="submit" placeholder="Ajouter un commentaire" id="sendBtn">
+        </form>
     </div>
 </template>
 <script>
@@ -40,15 +42,18 @@ export default {
                     postId: this.$store.state.postId
                 })
             }).then(response => {
+                if(response.status == 401){
+                    alert("Commentaire vide")
+                }
                 console.log(response)
                 })
             .catch(err => {
                 console.log(err)
             });
+            this.comment = null
             this.$emit('commentsent', {
                     message: 'nouveau post',
                 })
-            document.getElementsByName('comInput')[0].value = null
         }
     }
 }
@@ -56,11 +61,33 @@ export default {
 <style lang="scss" scoped>
 #addComment{
     display: flex;
+    text-align: center;
+}
+form{
+    width: 100%;
 }
 #comInput{
     width: 70%;
+    margin-right: 1rem;
 }
-button{
+#sendBtn{
     width: fit-content;
+    border: none;
+    background-color: dodgerblue;
+    border-radius: 1rem;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    padding: 7px;
+}
+@media screen and (min-width: 200px) and (max-width: 900px) {
+    #addComment{
+        display: block;
+    }
+    #sendBtn{
+        padding: 5px;
+        margin-top: 5px;
+    }
 }
 </style>

@@ -36,7 +36,7 @@ export default {
     },
     methods: {
         connexion() {
-            fetch("http://localhost:3000/api/test/connexion",{
+            fetch("http://localhost:3000/api/users/connexion",{
                 method: 'POST',
                 headers: 
                 {
@@ -73,6 +73,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#container{
+    display: flex;
+    height: 100vh;
+}
 .ligneForm{
     margin: 1rem;
 }
@@ -86,11 +90,7 @@ export default {
 #connexionContainer{
     text-align: center;
     background-color: white;
-    border-radius: 1rem;
     width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 2rem;
-    padding: 1rem;
-}
+    margin: auto;
+    }
 </style>

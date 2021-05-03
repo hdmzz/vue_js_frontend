@@ -1,23 +1,23 @@
 <template>
-    <div id="container">
-        <div id="title">
-            <h1>Information du compte</h1>
+        <div id="container">
+            <div id="title">
+                <h1>Information du compte</h1>
+            </div>
+            <div id="infoCompte">
+                <div id="nom">
+                    <p>Nom: {{data.lastName}}</p>
+                </div>
+                <div id="prenom">
+                    <p>Prénom: {{data.firstName}}</p>
+                </div>
+                <div id="email">
+                    <p>Adresse mail : {{data.email}}</p>
+                </div>
+                <div id="deleteBtn">
+                    <button @click="deleteUser(data.id)">Supprimer le compte</button>
+                </div>
+            </div>
         </div>
-        <div id="infoCompte">
-            <div id="nom">
-                <p>Nom: {{data.lastName}}</p>
-            </div>
-            <div id="prenom">
-                <p>Prénom: {{data.firstName}}</p>
-            </div>
-            <div id="email">
-                <p>Adresse mail : {{data.email}}</p>
-            </div>
-            <div id="deleteBtn">
-                <button @click="deleteUser(data.id)">Supprimer le compte</button>
-            </div>
-        </div>
-    </div>
 </template>
 <script>
 import router from '../router';
@@ -73,7 +73,7 @@ export default {
     margin-right: auto;
     margin-left: auto;
     margin-top: 15vh;
-    box-shadow: 0px 0px 10px rgb(110, 107, 107), 0px 0px 30px #777;
+    box-shadow: 0px 0px 10px rgb(110, 107, 107);
 }
 #title, #infoCompte{
     background-color: white;
@@ -81,5 +81,10 @@ export default {
     margin-top: 1rem;
     text-align: center;
     border-radius: 1rem;
+}
+@media screen and (min-width: 200px) and (max-width: 900px) {
+    #container{
+        width: 90%;
+    }
 }
 </style>
